@@ -1,0 +1,41 @@
+{
+  // "extends": ["alloy", "alloy/typescript"],
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "amd": true
+  },
+  "globals": {
+    "seajs": false,
+    "process": false
+  },
+  "rules": {
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/interface-name-prefix": ["error", "always"],
+    "@typescript-eslint/no-this-alias": "off",
+    "complexity": ["off"],
+    "eqeqeq": [
+      "error",
+      "always",
+      {
+        "null": "ignore"
+      }
+    ],
+    "no-import-assign": 0,
+    "prefer-regex-literals": 0,
+    "no-require-imports": "off"
+  }
+}
