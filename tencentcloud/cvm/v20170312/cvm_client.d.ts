@@ -4,7 +4,7 @@ import { AbstractClient } from '../../common/abstract_client';
  * @class
  */
 export declare class Client extends AbstractClient {
-    constructor(credential: any, region: string, profile: any);
+    constructor(credential: any, region: string, profile?: any);
     /**
      * 本接口(DescribeImageQuota)用于查询用户帐号的镜像配额。
      * @param {DescribeImageQuotaRequest} req

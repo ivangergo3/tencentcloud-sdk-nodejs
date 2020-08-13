@@ -203,7 +203,7 @@ const Price = models.Price
  * @class
  */
 export class Client extends AbstractClient {
-  constructor(credential: any, region: string, profile: any) {
+  constructor(credential: any, region: string, profile?: any) {
     super('cvm.tencentcloudapi.com', '2017-03-12', credential, region, profile)
   }
 

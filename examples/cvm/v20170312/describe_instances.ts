@@ -1,4 +1,5 @@
 import tencentcloud from '../../../index'
+import { user } from '../../config'
 
 // 导入对应产品模块的client models。
 const CvmClient = tencentcloud.cvm.v20170312.Client
@@ -10,10 +11,7 @@ const HttpProfile = tencentcloud.common.HttpProfile
 // 实例化一个认证对象，入参需要传入腾讯云账户secretId，secretKey
 //let cred = new Credential("secretId", "secretKey");
 // 可以直接指定，也可以使用环境变量提供账号信息（需要先设置）
-const cred = new Credential(
-  'AKIDRH1cxn4v72iCZcR0IL9h3HBsLWWHl8ar',
-  'A4j9ONDpCJVSBhDZbegSyKRZdsum8INK'
-)
+const cred = new Credential(user.secretId, user.secretKey)
 
 // 实例化一个http选项，可选的，没有特殊需求可以跳过。
 const httpProfile = new HttpProfile()
@@ -47,7 +45,7 @@ const filters = {
 req.from_json_string(JSON.stringify(filters))
 
 // 通过client对象调用想要访问的接口，需要传入请求对象以及响应回调函数
-client.DescribeInstances(req, function (err, response) {
+client.DescribeInstances(req, function (err: any, response: any) {
   // 请求异常返回，打印异常信息
   if (err) {
     console.log(err)
