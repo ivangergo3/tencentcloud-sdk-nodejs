@@ -4,7 +4,7 @@
     "target": "ES2019" /* 编译目标ES版本*/,
     "module": "commonjs" /* 编译目标模块系统*/,
     // "lib": [],                             /* 编译过程中需要引入的库文件列表*/
-    "declaration": true /* 编译时创建声明文件 */,
+    "declaration": false /* 编译时创建声明文件 */,
     "outDir": "tencentcloud" /* ts编译输出目录 */,
     "rootDir": "src" /* ts编译根目录. */,
     "importHelpers": true /* 从tslib导入辅助工具函数(如__importDefault)*/,
