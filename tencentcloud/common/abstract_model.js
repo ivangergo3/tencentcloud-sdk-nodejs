@@ -1,17 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @inner
  */
 class AbstractModel {
-    constructor() {
-
-    }
-
+    constructor() { }
     /**
      * @inner
      */
-    deserialize (params) {
-    }
-
+    deserialize(params) { }
     /**
      * 将object转化为json格式的string
      * @return {string}
@@ -19,14 +16,14 @@ class AbstractModel {
     to_json_string() {
         return JSON.stringify(this);
     }
-
     /**
      * 将json格式的string转化为object
      * @param  {string} dataString
      */
     from_json_string(dataString) {
-        let params = JSON.parse(dataString);
+        const params = JSON.parse(dataString);
         this.deserialize(params);
     }
 }
-module.exports = AbstractModel;
+exports.AbstractModel = AbstractModel;
+//# sourceMappingURL=abstract_model.js.map
