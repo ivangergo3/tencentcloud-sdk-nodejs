@@ -3,20 +3,20 @@
  */
 export default class TencentCloudSDKHttpException extends Error {
   requestId: string
-  constructor(error: any, requestId = "") {
+  constructor(error: string, requestId = "") {
     super(error)
     this.requestId = requestId || ""
   }
 
-  getMessage() {
+  getMessage(): string {
     return this.message
   }
 
-  getRequestId() {
+  getRequestId(): string {
     return this.requestId
   }
 
-  toString() {
+  toString(): string {
     return (
       "[TencentCloudSDKException]" +
       "message:" +
@@ -26,7 +26,7 @@ export default class TencentCloudSDKHttpException extends Error {
     )
   }
 
-  toLocaleString() {
+  toLocaleString(): string {
     return (
       "[TencentCloudSDKException]" +
       "message:" +

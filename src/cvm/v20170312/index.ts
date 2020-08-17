@@ -1,6 +1,6 @@
-import { Models } from "./models"
+import * as Models from "./cvm_models"
 import { Client } from "./cvm_client"
 export const v20170312 = {
-  Client,
-  Models: Models,
+    Client,
+    Models
 }

@@ -7,7 +7,9 @@ import { URL } from "url"
  */
 export default class Sign {
   static sign(secretKey: string, signStr: string, signMethod: string): string {
-    const signMethodMap: any = {
+    const signMethodMap: {
+      [key: string]: string
+    } = {
       HmacSHA1: "sha1",
       HmacSHA256: "sha256",
     }
@@ -31,7 +33,17 @@ export default class Sign {
     secretKey,
     multipart,
     boundary,
-  }: any): string {
+  }: {
+    method?: string
+    url?: string
+    payload: any
+    timestamp: number
+    service: string
+    secretId: string
+    secretKey: string
+    multipart: boolean
+    boundary: string
+  }): string {
     const urlObj = new URL(url)
 
     // 通用头部
@@ -110,14 +122,14 @@ export default class Sign {
   }
 }
 
-function sha256(message: string, secret = "", encoding?: any) {
+function sha256(message: string, secret = "", encoding?: string): string {
   const hmac = crypto.createHmac("sha256", secret)
-  return hmac.update(message).digest(encoding)
+  return hmac.update(message).digest(encoding as any)
 }
 
-function getHash(message: string, encoding: any = "hex"): string {
+function getHash(message: string, encoding = "hex"): string {
   const hash = crypto.createHash("sha256")
-  return hash.update(message).digest(encoding)
+  return hash.update(message).digest(encoding as any)
 }
 
 function getDate(timestamp: number): string {

@@ -6703,4 +6703,4 @@ class Price extends abstract_model_1.AbstractModel {
     }
 }
 exports.Price = Price;
-//# sourceMappingURL=models.js.map
+//# sourceMappingURL=cvm_models.js.map
