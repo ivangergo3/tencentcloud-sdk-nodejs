@@ -19,18 +19,16 @@ class AbstractClient {
      * @param {ClientProfile} profile 可选配置实例
      */
     constructor(endpoint, version, credential, region, profile) {
-        this.path = '/';
+        this.path = "/";
         /**
          * 认证信息实例
-         * @type {Credential || null}
          */
         this.credential = credential || null;
         /**
          * 产品地域
-         * @type {string || null}
          */
         this.region = region || null;
-        this.sdkVersion = 'SDK_NODEJS_' + sdk_version_1.sdkVersion;
+        this.sdkVersion = "SDK_NODEJS_" + sdk_version_1.sdkVersion;
         this.apiVersion = version;
         this.endpoint = endpoint;
         /**
@@ -62,11 +60,11 @@ class AbstractClient {
      * @inner
      */
     request(action, req, resp, options, cb) {
-        if (typeof options === 'function') {
+        if (typeof options === "function") {
             cb = options;
             options = {};
         }
-        if (this.profile.signMethod === 'TC3-HMAC-SHA256') {
+        if (this.profile.signMethod === "TC3-HMAC-SHA256") {
             this.doRequestWithSign3(action, req, options).then((data) => this.succRequest(resp, cb, data), (error) => this.failRequest(error, cb));
         }
         else {
@@ -106,7 +104,7 @@ class AbstractClient {
                 secretKey: this.credential.secretKey,
                 region: this.region,
                 data: params,
-                service: this.getEndpoint().split('.')[0],
+                service: this.getEndpoint().split(".")[0],
                 action: action,
                 version: this.apiVersion,
                 multipart: options.multipart,
@@ -141,14 +139,14 @@ class AbstractClient {
     /**
      * @inner
      */
-    mergeData(data, prefix = '') {
+    mergeData(data, prefix = "") {
         const ret = {};
         for (const k in data) {
             if (data[k] === null) {
                 continue;
             }
             if (data[k] instanceof Array || data[k] instanceof Object) {
-                Object.assign(ret, this.mergeData(data[k], prefix + k + '.'));
+                Object.assign(ret, this.mergeData(data[k], prefix + k + "."));
             }
             else {
                 ret[prefix + k] = data[k];
@@ -185,17 +183,17 @@ class AbstractClient {
      * @inner
      */
     formatSignString(params) {
-        let strParam = '';
+        let strParam = "";
         const keys = Object.keys(params);
         keys.sort();
         for (const k in keys) {
             //k = k.replace(/_/g, '.');
-            strParam += '&' + keys[k] + '=' + params[keys[k]];
+            strParam += "&" + keys[k] + "=" + params[keys[k]];
         }
         const strSign = this.profile.httpProfile.reqMethod.toLocaleUpperCase() +
             this.getEndpoint() +
             this.path +
-            '?' +
+            "?" +
             strParam.slice(1);
         return strSign;
     }

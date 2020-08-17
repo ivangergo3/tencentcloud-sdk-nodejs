@@ -2,10 +2,10 @@
  * @inner
  */
 export default class TencentCloudSDKHttpException extends Error {
-  public requestId: string
-  constructor(error: any, requestId = '') {
+  requestId: string
+  constructor(error: any, requestId = "") {
     super(error)
-    this.requestId = requestId || ''
+    this.requestId = requestId || ""
   }
 
   getMessage() {
@@ -18,20 +18,20 @@ export default class TencentCloudSDKHttpException extends Error {
 
   toString() {
     return (
-      '[TencentCloudSDKException]' +
-      'message:' +
+      "[TencentCloudSDKException]" +
+      "message:" +
       this.getMessage() +
-      '  requestId:' +
+      "  requestId:" +
       this.getRequestId()
     )
   }
 
   toLocaleString() {
     return (
-      '[TencentCloudSDKException]' +
-      'message:' +
+      "[TencentCloudSDKException]" +
+      "message:" +
       this.getMessage() +
-      '  requestId:' +
+      "  requestId:" +
       this.getRequestId()
     )
   }

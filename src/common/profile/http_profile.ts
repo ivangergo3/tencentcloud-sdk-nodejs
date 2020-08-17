@@ -3,10 +3,10 @@
  * @class
  */
 export class HttpProfile {
-  public reqMethod: string
-  public endpoint: string | null
-  public protocol: string
-  public reqTimeout: number
+  reqMethod: string
+  endpoint: string
+  protocol: string
+  reqTimeout: number
   /**
    * @param {string} protocol 协议，目前支持（https://）
    * @param {string} endpoint 接入点域名，形如（cvm.ap-shanghai.tencentcloud.com）
@@ -18,11 +18,11 @@ export class HttpProfile {
      * 请求方法，目前支持（POST GET）
      * @type {string}
      */
-    this.reqMethod = reqMethod || 'POST'
+    this.reqMethod = reqMethod || "POST"
 
     /**
      * 接入点域名，形如（cvm.ap-shanghai.tencentcloud.com）
-     * @type {string || null}
+     * @type {string}
      */
     this.endpoint = endpoint || null
 
@@ -30,7 +30,7 @@ export class HttpProfile {
      * 协议，目前支持（https://）
      * @type {string}
      */
-    this.protocol = protocol || 'https://'
+    this.protocol = protocol || "https://"
 
     /**
      *  请求超时时间，默认60s

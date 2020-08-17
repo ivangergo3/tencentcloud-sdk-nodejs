@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @inner
  */
 class TencentCloudSDKHttpException extends Error {
-    constructor(error, requestId = '') {
+    constructor(error, requestId = "") {
         super(error);
-        this.requestId = requestId || '';
+        this.requestId = requestId || "";
     }
     getMessage() {
         return this.message;
@@ -15,17 +15,17 @@ class TencentCloudSDKHttpException extends Error {
         return this.requestId;
     }
     toString() {
-        return ('[TencentCloudSDKException]' +
-            'message:' +
+        return ("[TencentCloudSDKException]" +
+            "message:" +
             this.getMessage() +
-            '  requestId:' +
+            "  requestId:" +
             this.getRequestId());
     }
     toLocaleString() {
-        return ('[TencentCloudSDKException]' +
-            'message:' +
+        return ("[TencentCloudSDKException]" +
+            "message:" +
             this.getMessage() +
-            '  requestId:' +
+            "  requestId:" +
             this.getRequestId());
     }
 }

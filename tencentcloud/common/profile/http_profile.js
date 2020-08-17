@@ -16,17 +16,17 @@ class HttpProfile {
          * 请求方法，目前支持（POST GET）
          * @type {string}
          */
-        this.reqMethod = reqMethod || 'POST';
+        this.reqMethod = reqMethod || "POST";
         /**
          * 接入点域名，形如（cvm.ap-shanghai.tencentcloud.com）
-         * @type {string || null}
+         * @type {string}
          */
         this.endpoint = endpoint || null;
         /**
          * 协议，目前支持（https://）
          * @type {string}
          */
-        this.protocol = protocol || 'https://';
+        this.protocol = protocol || "https://";
         /**
          *  请求超时时间，默认60s
          * @type {number}

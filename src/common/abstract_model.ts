@@ -7,7 +7,7 @@ export class AbstractModel {
   /**
    * @inner
    */
-  deserialize(params: any) {}
+  deserialize(params: any): any {}
 
   /**
    * 将object转化为json格式的string

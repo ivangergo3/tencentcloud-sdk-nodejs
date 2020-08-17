@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const QueryString = tslib_1.__importStar(require("querystring"));
 const url_1 = require("url");
-const isStream = require("is-stream");
+const is_stream_1 = tslib_1.__importDefault(require("is-stream"));
 const get_stream_1 = tslib_1.__importDefault(require("get-stream"));
 const form_data_1 = tslib_1.__importDefault(require("form-data"));
 const sign_1 = tslib_1.__importDefault(require("../sign"));
@@ -12,17 +12,17 @@ const fetch_1 = tslib_1.__importDefault(require("./fetch"));
  * @inner
  */
 class HttpConnection {
-    static async doRequest({ method, url, data, timeout }) {
+    static async doRequest({ method, url, data, timeout, }) {
         const config = {
             method: method,
             headers: {},
             timeout,
         };
-        if (method === 'GET') {
-            url += '?' + QueryString.stringify(data);
+        if (method === "GET") {
+            url += "?" + QueryString.stringify(data);
         }
         else {
-            config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+            config.headers["Content-Type"] = "application/x-www-form-urlencoded";
             config.body = QueryString.stringify(data);
         }
         return await fetch_1.default(url, config);
@@ -36,13 +36,13 @@ class HttpConnection {
         data = deepRemoveNull(data);
         const timestamp = parseInt(String(new Date().getTime() / 1000));
         method = method.toUpperCase();
-        let payload = '';
-        if (method === 'GET') {
+        let payload = "";
+        if (method === "GET") {
             // eslint-disable-next-line @typescript-eslint/no-use-before-define
             data = mergeData(data);
-            url += '?' + QueryString.stringify(data);
+            url += "?" + QueryString.stringify(data);
         }
-        if (method === 'POST') {
+        if (method === "POST") {
             payload = data;
         }
         const config = {
@@ -50,26 +50,26 @@ class HttpConnection {
             timeout,
             headers: {
                 Host: new url_1.URL(url).host,
-                'X-TC-Action': action,
-                'X-TC-Region': region,
-                'X-TC-Timestamp': timestamp,
-                'X-TC-Version': version,
-                'X-TC-Token': token,
-                'X-TC-RequestClient': requestClient,
+                "X-TC-Action": action,
+                "X-TC-Region": region,
+                "X-TC-Timestamp": timestamp,
+                "X-TC-Version": version,
+                "X-TC-Token": token,
+                "X-TC-RequestClient": requestClient,
             },
         };
         if (token === null) {
-            delete config.headers['X-TC-Token'];
+            delete config.headers["X-TC-Token"];
         }
         let form;
-        if (method === 'GET') {
-            config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        if (method === "GET") {
+            config.headers["Content-Type"] = "application/x-www-form-urlencoded";
         }
-        if (method === 'POST' && !multipart) {
+        if (method === "POST" && !multipart) {
             config.body = JSON.stringify(data);
-            config.headers['Content-Type'] = 'application/json';
+            config.headers["Content-Type"] = "application/json";
         }
-        if (method === 'POST' && multipart) {
+        if (method === "POST" && multipart) {
             form = new form_data_1.default();
             for (const key in data) {
                 form.append(key, data[key]);
@@ -88,26 +88,26 @@ class HttpConnection {
             multipart,
             boundary: form ? form.getBoundary() : undefined,
         });
-        config.headers['Authorization'] = signature;
+        config.headers["Authorization"] = signature;
         return await fetch_1.default(url, config);
     }
 }
 exports.HttpConnection = HttpConnection;
 async function convertReadStreamToBuffer(data) {
     for (const key in data) {
-        if (isStream(data[key])) {
+        if (is_stream_1.default(data[key])) {
             data[key] = await get_stream_1.default.buffer(data[key]);
         }
     }
 }
-function mergeData(data, prefix = '') {
+function mergeData(data, prefix = "") {
     const ret = {};
     for (const k in data) {
         if (data[k] === null) {
             continue;
         }
         if (data[k] instanceof Array || data[k] instanceof Object) {
-            Object.assign(ret, mergeData(data[k], prefix + k + '.'));
+            Object.assign(ret, mergeData(data[k], prefix + k + "."));
         }
         else {
             ret[prefix + k] = data[k];
@@ -140,7 +140,7 @@ function isArray(x) {
     return Array.isArray(x);
 }
 function isObject(x) {
-    return typeof x === 'object' && !isArray(x) && !isStream(x) && !isBuffer(x) && x !== null;
+    return typeof x === "object" && !isArray(x) && !is_stream_1.default(x) && !isBuffer(x) && x !== null;
 }
 function isNull(x) {
     return x === null;

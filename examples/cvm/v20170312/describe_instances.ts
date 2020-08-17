@@ -1,5 +1,6 @@
-import * as tencentcloud from '../../../../tencentcloud-sdk-nodejs'
-import { user } from '../../config'
+// import * as tencentcloud from "../../../../tencentcloud-sdk-nodejs"
+import * as tencentcloud from "../../../src"
+import { user } from "../../config"
 
 // 导入对应产品模块的client models。
 const CvmClient = tencentcloud.cvm.v20170312.Client
@@ -15,29 +16,29 @@ const cred = new Credential(user.secretId, user.secretKey)
 
 // 实例化一个http选项，可选的，没有特殊需求可以跳过。
 const httpProfile = new HttpProfile()
-httpProfile.reqMethod = 'POST'
+httpProfile.reqMethod = "POST"
 httpProfile.reqTimeout = 30
-httpProfile.endpoint = 'cvm.ap-shanghai.tencentcloudapi.com'
+httpProfile.endpoint = "cvm.ap-shanghai.tencentcloudapi.com"
 
 // 实例化一个client选项，可选的，没有特殊需求可以跳过。
 const clientProfile = new ClientProfile()
-clientProfile.signMethod = 'TC3-HMAC-SHA256'
+clientProfile.signMethod = "TC3-HMAC-SHA256"
 clientProfile.httpProfile = httpProfile
 
 // 实例化要请求产品(以cvm为例)的client对象。clientProfile可选。
-const client = new CvmClient(cred, 'ap-shanghai', clientProfile)
+const client = new CvmClient(cred, "ap-shanghai", clientProfile)
 
 // 实例化一个请求对象,并填充参数
 const req = new models.DescribeInstancesRequest()
 const filters = {
   Filters: [
     {
-      Name: 'zone',
-      Values: ['ap-shanghai-1', 'ap-shanghai-2'],
+      Name: "zone",
+      Values: ["ap-shanghai-1", "ap-shanghai-2"],
     },
     {
-      Name: 'instance-charge-type',
-      Values: ['POSTPAID_BY_HOUR'],
+      Name: "instance-charge-type",
+      Values: ["POSTPAID_BY_HOUR"],
     },
   ],
 }

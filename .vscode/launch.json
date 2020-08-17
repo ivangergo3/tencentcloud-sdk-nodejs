@@ -7,7 +7,7 @@
       "sourceMaps": true,
       "runtimeArgs": ["-r", "ts-node/register"],
       "cwd": "${workspaceFolder}",
-      "args": ["${workspaceFolder}/tencentcloud/examples/cvm/v20170312/describe_instances.ts", "xx"]
+      "args": ["${workspaceFolder}/examples/cvm/v20170312/describe_instances.ts", "xx"]
     }
   ]
 }

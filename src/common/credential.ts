@@ -3,9 +3,9 @@
  * @class
  */
 export class Credential {
-  public secretId: string | null
-  public secretKey: string | null
-  public token: string | null
+  secretId: string
+  secretKey: string
+  token: string
   /**
    * @param {string} secretId
    * @param {string} secretKey
@@ -14,20 +14,17 @@ export class Credential {
   constructor(secretId: string, secretKey: string, token?: string) {
     /**
      * secretId,可在控制台获取
-     * @type {string || null}
      */
-    this.secretId = secretId || null
+    this.secretId = secretId
 
     /**
      * secretKey,可在控制台获取
-     * @type {string || null}
      */
-    this.secretKey = secretKey || null
+    this.secretKey = secretKey
 
     /**
      * token
-     * @type {string || null}
      */
-    this.token = token || null
+    this.token = token
   }
 }

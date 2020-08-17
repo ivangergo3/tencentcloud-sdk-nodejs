@@ -15,7 +15,7 @@ class ClientProfile {
          * 签名方法，当前支持(HmacSHA1 HmacSHA256)
          * @type {string}
          */
-        this.signMethod = signMethod || 'HmacSHA256';
+        this.signMethod = signMethod || "HmacSHA256";
         /**
          * http相关选项实例
          * @type {httpProfile}

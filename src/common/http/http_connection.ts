@@ -1,25 +1,36 @@
-import * as QueryString from 'querystring'
-import { URL } from 'url'
-import isStream = require('is-stream')
-import getStream from 'get-stream'
-import FormData from 'form-data'
-import Sign from '../sign'
-import fetch from './fetch'
+import * as QueryString from "querystring"
+import { URL } from "url"
+import isStream from "is-stream"
+import getStream from "get-stream"
+import FormData from "form-data"
+import Sign from "../sign"
+import fetch from "./fetch"
+import { Response } from "node-fetch"
 
 /**
  * @inner
  */
 export class HttpConnection {
-  static async doRequest({ method, url, data, timeout }: any): Promise<any> {
+  static async doRequest({
+    method,
+    url,
+    data,
+    timeout,
+  }: {
+    method: string
+    url: string
+    data: any
+    timeout: number
+  }): Promise<Response> {
     const config: any = {
       method: method,
       headers: {},
       timeout,
     }
-    if (method === 'GET') {
-      url += '?' + QueryString.stringify(data)
+    if (method === "GET") {
+      url += "?" + QueryString.stringify(data)
     } else {
-      config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+      config.headers["Content-Type"] = "application/x-www-form-urlencoded"
       config.body = QueryString.stringify(data)
     }
     return await fetch(url, config)
@@ -39,7 +50,21 @@ export class HttpConnection {
     timeout = 60000,
     token,
     requestClient,
-  }: any): Promise<any> {
+  }: {
+    method: string
+    url: string
+    data: any
+    service: string
+    action: string
+    region: string
+    version: string
+    secretId: string
+    secretKey: string
+    multipart?: boolean
+    timeout?: number
+    token: string
+    requestClient: any
+  }): Promise<Response> {
     // data 中可能带有 readStream，由于需要计算整个 body 的 hash，
     // 所以这里把 readStream 转为 Buffer
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -51,13 +76,13 @@ export class HttpConnection {
     const timestamp = parseInt(String(new Date().getTime() / 1000))
     method = method.toUpperCase()
 
-    let payload = ''
-    if (method === 'GET') {
+    let payload = ""
+    if (method === "GET") {
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       data = mergeData(data)
-      url += '?' + QueryString.stringify(data)
+      url += "?" + QueryString.stringify(data)
     }
-    if (method === 'POST') {
+    if (method === "POST") {
       payload = data
     }
     const config: any = {
@@ -65,28 +90,28 @@ export class HttpConnection {
       timeout,
       headers: {
         Host: new URL(url).host,
-        'X-TC-Action': action,
-        'X-TC-Region': region,
-        'X-TC-Timestamp': timestamp,
-        'X-TC-Version': version,
-        'X-TC-Token': token,
-        'X-TC-RequestClient': requestClient,
+        "X-TC-Action": action,
+        "X-TC-Region": region,
+        "X-TC-Timestamp": timestamp,
+        "X-TC-Version": version,
+        "X-TC-Token": token,
+        "X-TC-RequestClient": requestClient,
       },
     }
 
     if (token === null) {
-      delete config.headers['X-TC-Token']
+      delete config.headers["X-TC-Token"]
     }
 
     let form
-    if (method === 'GET') {
-      config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+    if (method === "GET") {
+      config.headers["Content-Type"] = "application/x-www-form-urlencoded"
     }
-    if (method === 'POST' && !multipart) {
+    if (method === "POST" && !multipart) {
       config.body = JSON.stringify(data)
-      config.headers['Content-Type'] = 'application/json'
+      config.headers["Content-Type"] = "application/json"
     }
-    if (method === 'POST' && multipart) {
+    if (method === "POST" && multipart) {
       form = new FormData()
       for (const key in data) {
         form.append(key, data[key])
@@ -107,7 +132,7 @@ export class HttpConnection {
       boundary: form ? form.getBoundary() : undefined,
     })
 
-    config.headers['Authorization'] = signature
+    config.headers["Authorization"] = signature
 
     return await fetch(url, config)
   }
@@ -121,14 +146,14 @@ async function convertReadStreamToBuffer(data: any): Promise<void> {
   }
 }
 
-function mergeData(data: any, prefix = ''): any {
+function mergeData(data: any, prefix = ""): any {
   const ret: any = {}
   for (const k in data) {
     if (data[k] === null) {
       continue
     }
     if (data[k] instanceof Array || data[k] instanceof Object) {
-      Object.assign(ret, mergeData(data[k], prefix + k + '.'))
+      Object.assign(ret, mergeData(data[k], prefix + k + "."))
     } else {
       ret[prefix + k] = data[k]
     }
@@ -162,7 +187,7 @@ function isArray(x: any): boolean {
 }
 
 function isObject(x: any): boolean {
-  return typeof x === 'object' && !isArray(x) && !isStream(x) && !isBuffer(x) && x !== null
+  return typeof x === "object" && !isArray(x) && !isStream(x) && !isBuffer(x) && x !== null
 }
 
 function isNull(x: any): boolean {

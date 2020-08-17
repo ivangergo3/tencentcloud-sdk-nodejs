@@ -1,7 +1,7 @@
-import fetch, { RequestInit } from 'node-fetch'
-import HttpsProxyAgent = require('https-proxy-agent')
+import fetch, { RequestInit, Response } from "node-fetch"
+import HttpsProxyAgent = require("https-proxy-agent")
 
-export default function (url: string, options: RequestInit) {
+export default function (url: string, options: RequestInit): Promise<Response> {
   const instanceOptions = options || {}
 
   if (!options.agent && process.env.http_proxy) {
