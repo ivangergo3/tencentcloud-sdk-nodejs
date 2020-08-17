@@ -15,16 +15,16 @@ export class Credential {
     /**
      * secretId,可在控制台获取
      */
-    this.secretId = secretId
+    this.secretId = secretId || null
 
     /**
      * secretKey,可在控制台获取
      */
-    this.secretKey = secretKey
+    this.secretKey = secretKey || null
 
     /**
      * token
      */
-    this.token = token
+    this.token = token || null
   }
 }
