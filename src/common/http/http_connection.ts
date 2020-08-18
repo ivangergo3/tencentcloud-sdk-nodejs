@@ -1,8 +1,8 @@
 import * as QueryString from "querystring"
 import { URL } from "url"
-import isStream from "is-stream"
-import getStream from "get-stream"
-import FormData from "form-data"
+import * as isStream from "is-stream"
+import * as getStream from "get-stream"
+import * as FormData from "form-data"
 import Sign from "../sign"
 import fetch from "./fetch"
 import { Response } from "node-fetch"
@@ -76,6 +76,7 @@ export class HttpConnection {
     // 所以这里把 readStream 转为 Buffer
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     await convertReadStreamToBuffer(data)
+    console.log(111111)
 
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     data = deepRemoveNull(data)
@@ -98,7 +99,7 @@ export class HttpConnection {
       headers: {
         [key: string]: any
       }
-      body?: string
+      body?: any
     } = {
       method,
       timeout,

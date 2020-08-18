@@ -1,11 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
 const sdk_version_1 = require("./sdk_version");
 const client_profile_1 = require("./profile/client_profile");
-const sign_1 = tslib_1.__importDefault(require("./sign"));
+const sign_1 = require("./sign");
 const http_connection_1 = require("./http/http_connection");
-const tencent_cloud_sdk_exception_1 = tslib_1.__importDefault(require("./exception/tencent_cloud_sdk_exception"));
+const tencent_cloud_sdk_exception_1 = require("./exception/tencent_cloud_sdk_exception");
 /**
  * @inner
  */

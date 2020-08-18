@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const tencent_cloud_sdk_exception_1 = tslib_1.__importDefault(require("./exception/tencent_cloud_sdk_exception"));
-const crypto = tslib_1.__importStar(require("crypto"));
+const tencent_cloud_sdk_exception_1 = require("./exception/tencent_cloud_sdk_exception");
+const crypto = require("crypto");
 const url_1 = require("url");
 /**
  * @inner

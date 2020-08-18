@@ -1,5 +1,5 @@
-import tencentcloud from '../../../../tencentcloud-sdk-nodejs'
-import { user } from '../../config'
+import * as tencentcloud from "../../../../tencentcloud-sdk-nodejs"
+import { user } from "../../config"
 
 // 导入对应产品模块的client models。
 const CvmClient = tencentcloud.cvm.v20170312.Client
@@ -11,7 +11,7 @@ const Credential = tencentcloud.common.Credential
 const cred = new Credential(user.secretId, user.secretKey)
 
 // 实例化要请求产品(以cvm为例)的client对象
-const client = new CvmClient(cred, 'ap-shanghai')
+const client = new CvmClient(cred, "ap-shanghai")
 
 // 实例化一个请求对象
 const req = new models.DescribeZonesRequest()

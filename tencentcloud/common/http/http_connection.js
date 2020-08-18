@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const QueryString = tslib_1.__importStar(require("querystring"));
+const QueryString = require("querystring");
 const url_1 = require("url");
-const is_stream_1 = tslib_1.__importDefault(require("is-stream"));
-const get_stream_1 = tslib_1.__importDefault(require("get-stream"));
-const form_data_1 = tslib_1.__importDefault(require("form-data"));
-const sign_1 = tslib_1.__importDefault(require("../sign"));
-const fetch_1 = tslib_1.__importDefault(require("./fetch"));
+const isStream = require("is-stream");
+const getStream = require("get-stream");
+const FormData = require("form-data");
+const sign_1 = require("../sign");
+const fetch_1 = require("./fetch");
 /**
  * @inner
  */
@@ -32,6 +31,7 @@ class HttpConnection {
         // 所以这里把 readStream 转为 Buffer
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         await convertReadStreamToBuffer(data);
+        console.log(111111);
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         data = deepRemoveNull(data);
         const timestamp = parseInt(String(new Date().getTime() / 1000));
@@ -70,7 +70,7 @@ class HttpConnection {
             config.headers["Content-Type"] = "application/json";
         }
         if (method === "POST" && multipart) {
-            form = new form_data_1.default();
+            form = new FormData();
             for (const key in data) {
                 form.append(key, data[key]);
             }
@@ -95,8 +95,8 @@ class HttpConnection {
 exports.HttpConnection = HttpConnection;
 async function convertReadStreamToBuffer(data) {
     for (const key in data) {
-        if (is_stream_1.default(data[key])) {
-            data[key] = await get_stream_1.default.buffer(data[key]);
+        if (isStream(data[key])) {
+            data[key] = await getStream.buffer(data[key]);
         }
     }
 }
@@ -140,7 +140,7 @@ function isArray(x) {
     return Array.isArray(x);
 }
 function isObject(x) {
-    return typeof x === "object" && !isArray(x) && !is_stream_1.default(x) && !isBuffer(x) && x !== null;
+    return typeof x === "object" && !isArray(x) && !isStream(x) && !isBuffer(x) && x !== null;
 }
 function isNull(x) {
     return x === null;

@@ -1,8 +1,7 @@
 // import * as tencentcloud from "../../../../tencentcloud-sdk-nodejs"
 import * as tencentcloud from "../../../src"
 import { user } from "../../config"
-import { DescribeInstancesResponse } from "../../../src/cvm/v20170312/models"
-
+import { DescribeInstancesResponse } from "../../../src/cvm/v20170312/cvm_models"
 // 导入对应产品模块的client models。
 const CvmClient = tencentcloud.cvm.v20170312.Client
 const models = tencentcloud.cvm.v20170312.Models
@@ -53,6 +52,7 @@ client.DescribeInstances(req, function (err: string, response: DescribeInstances
     console.log(err)
     return
   }
+  console.log(response.RequestId)
   // 请求正常返回，打印response对象
   console.log(response.to_json_string())
 })

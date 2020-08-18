@@ -21,13 +21,13 @@
   "author": "tencentcloudapi",
   "license": "Apache-2.0",
   "dependencies": {
-    "form-data": "^2.3.3",
-    "get-stream": "^4.1.0",
-    "https-proxy-agent": "^2.2.1",
-    "is-stream": "^1.1.0",
-    "node-fetch": "^2.2.0",
     "babel-eslint": "^10.0.2",
-    "eslint-plugin-react": "^7.17.0"
+    "eslint-plugin-react": "^7.17.0",
+    "form-data": "^3.0.0",
+    "get-stream": "^6.0.0",
+    "https-proxy-agent": "^2.2.1",
+    "is-stream": "^2.0.0",
+    "node-fetch": "^2.2.0"
   },
   "directories": {
     "example": "examples",
