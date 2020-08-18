@@ -4,7 +4,30 @@ import Sign from "./sign"
 import { HttpConnection } from "./http/http_connection"
 import { Credential } from "./credential"
 import TencentCloudSDKHttpException from "./exception/tencent_cloud_sdk_exception"
+import { AbstractModel } from "./abstract_model"
+import { Response } from "node-fetch"
 
+type ResponseCallback = (error: string, rep: any) => void
+interface RequestOptions {
+  multipart: boolean
+}
+interface RequestData {
+  Action: string
+  RequestClient: string
+  Nonce: number
+  Timestamp: number
+  Version: string
+  Signature: string
+  SecretId?: string
+  region?: string
+  Token?: string
+  SinatureMethod?: string
+  [key: string]: any
+}
+interface ResponseData {
+  RequestId: string
+  [key: string]: any
+}
 /**
  * @inner
  */
@@ -63,7 +86,7 @@ export class AbstractClient {
   /**
    * @inner
    */
-  succRequest(resp: any, cb: any, data: any): void {
+  succRequest(resp: AbstractModel, cb: ResponseCallback, data: ResponseData): void {
     resp.deserialize(data)
     cb(null, resp)
   }
@@ -71,20 +94,26 @@ export class AbstractClient {
   /**
    * @inner
    */
-  failRequest(err: any, cb: any): void {
+  failRequest(err: string, cb: ResponseCallback): void {
     cb(err, null)
   }
 
   /**
    * @inner
    */
-  request(action: string, req: any, resp: any, options: any, cb?: any): void {
+  request(
+    action: string,
+    req: AbstractModel,
+    resp: AbstractModel,
+    options: ResponseCallback | RequestOptions,
+    cb?: ResponseCallback
+  ): void {
     if (typeof options === "function") {
       cb = options
-      options = {}
+      options = {} as RequestOptions
     }
     if (this.profile.signMethod === "TC3-HMAC-SHA256") {
-      this.doRequestWithSign3(action, req, options).then(
+      this.doRequestWithSign3(action, req, options as RequestOptions).then(
         (data) => this.succRequest(resp, cb, data),
         (error) => this.failRequest(error, cb)
       )
@@ -99,7 +128,7 @@ export class AbstractClient {
   /**
    * @inner
    */
-  async doRequest(action: string, req: any): Promise<any> {
+  async doRequest(action: string, req: AbstractModel): Promise<ResponseData> {
     let params = this.mergeData(req)
     params = this.formatRequestData(action, params)
     let res
@@ -119,7 +148,11 @@ export class AbstractClient {
   /**
    * @inner
    */
-  async doRequestWithSign3(action: string, params: any, options: any): Promise<any> {
+  async doRequestWithSign3(
+    action: string,
+    params: AbstractModel,
+    options?: RequestOptions
+  ): Promise<ResponseData> {
     let res
     try {
       res = await HttpConnection.doRequestWithSign3({
@@ -143,15 +176,15 @@ export class AbstractClient {
     return await this.parseResponse(res)
   }
 
-  async parseResponse(res: any): Promise<any> {
+  async parseResponse(res: Response): Promise<ResponseData> {
     if (res.status !== 200) {
-      const tcError: any = new TencentCloudSDKHttpException(res.statusText)
+      const tcError = new TencentCloudSDKHttpException(res.statusText)
       tcError.httpCode = res.status
       throw tcError
     } else {
       const data = await res.json()
       if (data.Response.Error) {
-        const tcError: any = new TencentCloudSDKHttpException(
+        const tcError = new TencentCloudSDKHttpException(
           data.Response.Error.Message,
           data.Response.RequestId
         )
@@ -166,7 +199,7 @@ export class AbstractClient {
   /**
    * @inner
    */
-  mergeData(data: any, prefix = ""): any {
+  mergeData(data: any, prefix = "") {
     const ret: any = {}
     for (const k in data) {
       if (data[k] === null) {
@@ -184,7 +217,7 @@ export class AbstractClient {
   /**
    * @inner
    */
-  formatRequestData(action: string, params: any): any {
+  formatRequestData(action: string, params: RequestData): RequestData {
     params.Action = action
     params.RequestClient = this.sdkVersion
     params.Nonce = Math.round(Math.random() * 65535)
@@ -215,7 +248,7 @@ export class AbstractClient {
   /**
    * @inner
    */
-  formatSignString(params: any): any {
+  formatSignString(params: RequestData): string {
     let strParam = ""
     const keys = Object.keys(params)
     keys.sort()

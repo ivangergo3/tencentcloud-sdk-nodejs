@@ -3,6 +3,9 @@
  */
 export default class TencentCloudSDKHttpException extends Error {
   requestId: string
+  tcError?: string
+  httpCode?: number
+  code?: string
   constructor(error: string, requestId = "") {
     super(error)
     this.requestId = requestId || ""

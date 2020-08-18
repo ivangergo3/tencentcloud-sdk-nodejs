@@ -22,7 +22,14 @@ export class HttpConnection {
     data: any
     timeout: number
   }): Promise<Response> {
-    const config: any = {
+    const config: {
+      method: string
+      timeout: number
+      headers: {
+        [key: string]: string
+      }
+      body?: string
+    } = {
       method: method,
       headers: {},
       timeout,
@@ -63,7 +70,7 @@ export class HttpConnection {
     multipart?: boolean
     timeout?: number
     token: string
-    requestClient: any
+    requestClient: string
   }): Promise<Response> {
     // data 中可能带有 readStream，由于需要计算整个 body 的 hash，
     // 所以这里把 readStream 转为 Buffer
@@ -85,7 +92,14 @@ export class HttpConnection {
     if (method === "POST") {
       payload = data
     }
-    const config: any = {
+    const config: {
+      method: string
+      timeout: number
+      headers: {
+        [key: string]: any
+      }
+      body?: string
+    } = {
       method,
       timeout,
       headers: {
@@ -146,7 +160,7 @@ async function convertReadStreamToBuffer(data: any): Promise<void> {
   }
 }
 
-function mergeData(data: any, prefix = ""): any {
+function mergeData(data: any, prefix = "") {
   const ret: any = {}
   for (const k in data) {
     if (data[k] === null) {
@@ -161,7 +175,7 @@ function mergeData(data: any, prefix = ""): any {
   return ret
 }
 
-function deepRemoveNull(obj: any): any {
+function deepRemoveNull(obj: any) {
   if (isArray(obj)) {
     return obj.map(deepRemoveNull)
   } else if (isObject(obj)) {
